@@ -12,28 +12,28 @@ spec:
     matchLabels:
       app: cmmn-mariadb
   template:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-              - key: "node-role.kubernetes.io/node"
-                operator: In
-                values:
-                  - "cmmn-mariadb"
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: "node-role.kubernetes.io/node"
-            labelSelector:
-              matchExpressions:
-                - key: node
-                  operator: In
-                  values:
-                    - "cmmn-mariadb"
     metadata:
       labels:
         app: cmmn-mariadb
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "node-role.kubernetes.io/node"
+                  operator: In
+                  values:
+                    - "mariadb"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "node-role.kubernetes.io/node"
+              labelSelector:
+                matchExpressions:
+                  - key: node
+                    operator: In
+                    values:
+                      - "mariadb"
       setHostnameAsFQDN: true
       containers:
       - name: cmmn-mariadb
@@ -71,7 +71,7 @@ spec:
                 path: my.cnf
         - name: cmmn-mariadb-tde-volume
           hostPath:
-            path: /home/ahnjisoo/mariadb/cmmn/tde
+            path: /home/ubuntu/mariadb/cmmn/tde
       securityContext:
         runAsUser: 0
         runAsGroup: 0
