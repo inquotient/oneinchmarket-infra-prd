@@ -1,0 +1,1 @@
+sudo kubectl apply -f nginx-ingress.yaml -n dev

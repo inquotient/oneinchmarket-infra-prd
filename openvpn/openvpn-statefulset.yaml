@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: openvpn
+spec:
+  serviceName: openvpn-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openvpn
+  template:
+    metadata:
+      labels:
+        app: openvpn
+    spec:
+      setHostnameAsFQDN: true
+      containers:
+        - name: openvpn
+          image: kylemanna/openvpn:latest
+          ports:
+            - containerPort: 443
+              protocol: TCP
+            - containerPort: 1194
+              protocol: TCP
+          volumeMounts:
+          - name: config
+            mountPath: /etc/openvpn
+          securityContext:
+            capabilities:
+              add:
+              - NET_ADMIN
+      volumes:
+        - name: config
+          hostPath:
+            path: /home/ahnjisoo/openvpn
+            type: Directory
+      securityContext:
+        runAsUser: 0
+        runAsGroup: 0

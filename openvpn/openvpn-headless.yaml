@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: openvpn-headless
+  labels:
+    app: openvpn
+spec:
+  ports:
+  - port: 443
+    name: openvpn-tcp-port
+  - port: 1194
+    name: openvpn-port
+  clusterIP: None
+  selector:
+    app: openvpn

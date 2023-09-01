@@ -1,0 +1,17 @@
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: openvpn-nodeport
+spec: 
+  ports: 
+    - name: openvpn-https-port
+      protocol: TCP 
+      port: 10443
+      targetPort: 443
+    - name: openvpn-tcp-port
+      protocol: TCP
+      port: 1194
+      targetPort: 1194
+  selector: 
+    app: openvpn
+  type: NodePort
