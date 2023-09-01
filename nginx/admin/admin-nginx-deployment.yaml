@@ -8,6 +8,24 @@ spec:
     matchLabels:
       app: admin-nginx
   template:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: "node-role.kubernetes.io/node"
+                operator: In
+                values:
+                  - "admin-nginx"
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: "node-role.kubernetes.io/node"
+            labelSelector:
+              matchExpressions:
+                - key: node
+                  operator: In
+                  values:
+                    - "admin-nginx"
     metadata:
       labels:
         app: admin-nginx

@@ -12,6 +12,24 @@ spec:
     matchLabels:
       app: keycloak
   template:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: "node-role.kubernetes.io/node"
+                operator: In
+                values:
+                  - "keycloak"
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: "node-role.kubernetes.io/node"
+            labelSelector:
+              matchExpressions:
+                - key: node
+                  operator: In
+                  values:
+                    - "keycloak"
     metadata:
       labels:
         app: keycloak
@@ -91,7 +109,7 @@ spec:
       spec:
         accessModes:
           - ReadWriteOnce
-        storageClassName: standard
+        storageClassName: kops-csi-1-21
         resources:
           requests:
             storage: 20Gi  

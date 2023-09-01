@@ -11,6 +11,24 @@ spec:
     matchLabels:
       app: kafka-ui
   template:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: "node-role.kubernetes.io/node"
+                operator: In
+                values:
+                  - "kafka-ui"
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: "node-role.kubernetes.io/node"
+            labelSelector:
+              matchExpressions:
+                - key: node
+                  operator: In
+                  values:
+                    - "kafka-ui"
     metadata:
       labels:
         app: kafka-ui
@@ -46,7 +64,7 @@ spec:
 #      spec:
 #        accessModes:
 #          - ReadWriteOnce
-#        storageClassName: standard
+#        storageClassName: kops-csi-1-21
 #        resources:
 #          requests:
 #            storage: 20Gi  

@@ -14,6 +14,24 @@ spec:
     matchLabels:
       app: gitlab
   template:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - key: "node-role.kubernetes.io/node"
+                operator: In
+                values:
+                  - "gitlab"
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: "node-role.kubernetes.io/node"
+            labelSelector:
+              matchExpressions:
+                - key: node
+                  operator: In
+                  values:
+                    - "gitlab"
     metadata:
       labels:
         app: gitlab
@@ -55,7 +73,7 @@ spec:
       spec:
         accessModes:
           - ReadWriteOnce
-        storageClassName: standard
+        storageClassName: kops-csi-1-21
         resources:
           requests:
-            storage: 50Gi  
+            storage: 20Gi  
