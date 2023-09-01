@@ -12,28 +12,28 @@ spec:
     matchLabels:
       app: postgresql
   template:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-              - key: "node-role.kubernetes.io/node"
-                operator: In
-                values:
-                  - "postgresql"
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: "node-role.kubernetes.io/node"
-            labelSelector:
-              matchExpressions:
-                - key: node
-                  operator: In
-                  values:
-                    - "postgresql"
     metadata:
       labels:
         app: postgresql
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "node-role.kubernetes.io/node"
+                  operator: In
+                  values:
+                    - "postgresql"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "node-role.kubernetes.io/node"
+              labelSelector:
+                matchExpressions:
+                  - key: node
+                    operator: In
+                    values:
+                      - "postgresql"
       setHostnameAsFQDN: true
       containers:
         - name: postgresql

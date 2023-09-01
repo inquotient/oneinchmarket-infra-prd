@@ -9,28 +9,28 @@ spec:
     matchLabels:
       app: cmmn-api
   template:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-              - key: "node-role.kubernetes.io/node"
-                operator: In
-                values:
-                  - "api"
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: "node-role.kubernetes.io/node"
-            labelSelector:
-              matchExpressions:
-                - key: node
-                  operator: In
-                  values:
-                    - "api"
     metadata:
       labels:
         app: cmmn-api
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "node-role.kubernetes.io/node"
+                  operator: In
+                  values:
+                    - "api"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "node-role.kubernetes.io/node"
+              labelSelector:
+                matchExpressions:
+                  - key: node
+                    operator: In
+                    values:
+                      - "api"
       setHostnameAsFQDN: true
       containers:
         - name: cmmn-api

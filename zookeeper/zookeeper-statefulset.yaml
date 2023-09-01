@@ -12,28 +12,28 @@ spec:
     matchLabels:
       app: zookeeper
   template:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-              - key: "node-role.kubernetes.io/node"
-                operator: In
-                values:
-                  - "zookeeper"
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: "node-role.kubernetes.io/node"
-            labelSelector:
-              matchExpressions:
-                - key: node
-                  operator: In
-                  values:
-                    - "zookeeper"
     metadata:
       labels:
         app: zookeeper
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "node-role.kubernetes.io/node"
+                  operator: In
+                  values:
+                    - "zookeeper"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "node-role.kubernetes.io/node"
+              labelSelector:
+                matchExpressions:
+                  - key: node
+                    operator: In
+                    values:
+                      - "zookeeper"
       setHostnameAsFQDN: true
       containers:
         - name: zookeeper

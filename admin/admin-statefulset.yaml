@@ -9,28 +9,28 @@ spec:
     matchLabels:
       app: admin
   template:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-              - key: "node-role.kubernetes.io/node"
-                operator: In
-                values:
-                  - "next"
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: "node-role.kubernetes.io/node"
-            labelSelector:
-              matchExpressions:
-                - key: node
-                  operator: In
-                  values:
-                    - "next"
     metadata:
       labels:
         app: admin
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "node-role.kubernetes.io/node"
+                  operator: In
+                  values:
+                    - "next"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "node-role.kubernetes.io/node"
+              labelSelector:
+                matchExpressions:
+                  - key: node
+                    operator: In
+                    values:
+                      - "next"
       setHostnameAsFQDN: true
       containers:
         - name: admin
