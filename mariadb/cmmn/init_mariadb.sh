@@ -10,7 +10,7 @@ then
     (echo -n "1;" ; openssl rand -hex 32 ) | sudo tee -a ~/mariadb/cmmn/tde/tde_master
     openssl rand -hex 128 > ~/mariadb/cmmn/tde/tde_master.key
     openssl enc -aes-256-cbc -md sha1 -pass file:/home/ubuntu/mariadb/cmmn/tde/tde_master.key -in /home/ubuntu/mariadb/cmmn/tde/tde_master -out /home/ubuntu/mariadb/cmmn/tde/tde_master.enc
-    sudo kubectl apply -f mariadb-configmap.yaml -f mariadb-headless.yaml -f mariadb-statefulset.yaml -f mariadb-nodeport.yaml -n dev
+    sudo kubectl apply -f mariadb-configmap.yaml -f mariadb-headless.yaml -f mariadb-statefulset.yaml -f mariadb-nodeport.yaml -f mariadb-loadbalancer.yaml -n dev
     sudo kubectl -n dev port-forward svc/cmmn-mariadb-nodeport 10306:10306 > /dev/null 2>&1 &
 else
     myenv=$(head -c 24 /dev/random | base64) yq e --inplace '.data.mysql_root_password=env(myenv)' mariadb-configmap.yaml
