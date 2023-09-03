@@ -4,18 +4,25 @@ metadata:
   name: cmmn-mariadb-loadbalancer
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
-    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
-    service.beta.kubernetes.io/aws-load-balancer-subnets: subnet-08c8fc766c3c475ff
-    service.beta.kubernetes.io/aws-load-balancer-security-groups: sg-020a111f102c4b041
+    # legacy provider
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
+    # timeout 없이 db에 접속되지 않음 2.6 버전 aws-alb-load-balancer 컨테이너가 출시되면 될 수도 있음
+    # doc에는 internal 관련 태그가 subnet에 있으면 자동으로 discovery 한다고 되어 있으나 직접 명시해야함
+    # aws-alb-load-balancer 2.4.5
+    # service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    # service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+    # service.beta.kubernetes.io/aws-load-balancer-scheme: internal
+    # service.beta.kubernetes.io/aws-load-balancer-subnets: subnet-08c8fc766c3c475ff
+    # service.beta.kubernetes.io/aws-load-balancer-security-groups: sg-020a111f102c4b041
 spec:
   ports:
     - port: 3306
       targetPort: 3306
       protocol: TCP
   type: LoadBalancer
-  loadBalancerClass: service.k8s.aws/nlb
+  # loadBalancerClass: service.k8s.aws/nlb
   selector:
     app: cmmn-mariadb
-  loadBalancerSourceRanges:
-    - 10.0.0.0/16
+  # loadBalancerSourceRanges:
+  #  - 10.0.0.0/16
