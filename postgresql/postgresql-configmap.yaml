@@ -10,8 +10,7 @@ data:
   pghba-config: |
     host  keycloak  keycloak   .keycloak-headless.dev.svc.cluster.local md5
     host  gitlab  gitlab  .gitlab-headless.dev.svc.cluster.local md5
-    host  all all 10.244.0.0/24 md5
-    host  all all 10.96.0.0/16  md5
+    host  all all 100.64.0.0/10 md5
     # host  all all 0.0.0.0/0 md5
     # host  all all ::/0  md5
     # postgresql 초기화 후에 peer로 수정

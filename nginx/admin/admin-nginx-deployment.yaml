@@ -20,7 +20,7 @@ spec:
                 - key: "node-role.kubernetes.io/node"
                   operator: In
                   values:
-                    - "admin-nginx"
+                    - "nginx"
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - topologyKey: "node-role.kubernetes.io/node"
@@ -29,7 +29,7 @@ spec:
                   - key: node
                     operator: In
                     values:
-                      - "admin-nginx"
+                      - "nginx"
       setHostnameAsFQDN: true
       containers:
         - name: admin-nginx

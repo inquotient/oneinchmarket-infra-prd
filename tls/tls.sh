@@ -8,8 +8,8 @@ sudo openssl rand -hex 32
 sudo openssl pkcs12 -export -in ./tls.crt -inkey ./tls.key -out keycloaks.p12
 # 위의 해쉬값을 비밀번호로 사용
 # keytool -importkeystore -deststorepass '암호화에 사용한 비밀번호' -destkeypass '암호화에 사용한 비밀번호' -destkeystore keycloaks.test.jks -srckeystore keycloaks.test.net.p12 -srcstoretype PKCS12 -alias 1
-keytool -importkeystore -deststorepass 'a92d0be882e0991d3e111f82d8367c7172339d8419a7c5c47a50ad44921bed46' -destkeypass 'a92d0be882e0991d3e111f82d8367c7172339d8419a7c5c47a50ad44921bed46' -destkeystore keycloaks.keystore.jks -srckeystore keycloaks.p12 -srcstoretype PKCS12 -alias 1
-keytool -importkeystore -deststorepass 'a92d0be882e0991d3e111f82d8367c7172339d8419a7c5c47a50ad44921bed46' -destkeypass 'a92d0be882e0991d3e111f82d8367c7172339d8419a7c5c47a50ad44921bed46' -destkeystore keycloaks.truststore.jks -srckeystore keycloaks.p12 -srcstoretype PKCS12 -alias 1
+keytool -importkeystore -deststorepass '' -destkeypass '' -destkeystore keycloaks.keystore.jks -srckeystore keycloaks.p12 -srcstoretype PKCS12 -alias 1
+keytool -importkeystore -deststorepass '' -destkeypass '' -destkeystore keycloaks.truststore.jks -srckeystore keycloaks.p12 -srcstoretype PKCS12 -alias 1
 keytool -importkeystore -srckeystore keycloaks.keystore.jks -destkeystore keycloaks.keystore.jks -deststoretype pkcs12
 keytool -importkeystore -srckeystore keycloaks.truststore.jks -destkeystore keycloaks.truststore.jks -deststoretype pkcs12
 sudo kubectl create secret generic keycloak-store --from-file=keycloaks.truststore.jks --from-file=keycloaks.keystore.jks -n dev
