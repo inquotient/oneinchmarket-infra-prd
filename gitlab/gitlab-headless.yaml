@@ -10,6 +10,10 @@ spec:
     name: gitlab-port
   - port: 443
     name: gitlab-secure-port
+  - port: 9080
+    name: gitlab-was-port
+  - port: 9443
+    name: gitlab-was-secure-port
   clusterIP: None
   selector:
-    app: keycloak
+    app: gitlab

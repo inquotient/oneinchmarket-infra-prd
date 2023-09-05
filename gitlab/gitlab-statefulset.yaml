@@ -14,28 +14,29 @@ spec:
     matchLabels:
       app: gitlab
   template:
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-              - key: "node-role.kubernetes.io/node"
-                operator: In
-                values:
-                  - "gitlab"
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - topologyKey: "node-role.kubernetes.io/node"
-            labelSelector:
-              matchExpressions:
-                - key: node
-                  operator: In
-                  values:
-                    - "gitlab"
     metadata:
       labels:
         app: gitlab
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: "node-role.kubernetes.io/node"
+                  operator: In
+                  values:
+                    - "gitlab"
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "node-role.kubernetes.io/node"
+              labelSelector:
+                matchExpressions:
+                  - key: node
+                    operator: In
+                    values:
+                      - "gitlab"
+      setHostnameAsFQDN: true
       containers:
       - name: gitlab
         image: gitlab/gitlab-ee:latest
@@ -46,17 +47,24 @@ spec:
           protocol: TCP
         - containerPort: 443
           protocol: TCP
+        - containerPort: 9080
+          protocol: TCP
+        - containerPort: 9443
+          protocol: TCP
         volumeMounts:
         - name: gitlab-config
           mountPath: /etc/gitlab/gitlab.rb
           subPath: gitlab.rb
+        - name: tls
+          mountPath: /etc/gitlab/tls
+          readOnly: true
         - name: pvc
           mountPath: /var/log/gitlab
           subPath: gitlab
-        resources:
-          limits:
-            memory: "4096Mi"
-            cpu: "4000m"
+        # resources:
+        #limits:
+        #memory: "4096Mi"
+        #cpu: "4000m"
       volumes:
         - name: gitlab-config
           configMap:
@@ -64,6 +72,9 @@ spec:
             items:
               - key: gitlab-config
                 path: gitlab.rb
+        - name: tls
+          secret:
+            secretName: tls
       securityContext:
         runAsUser: 0
         runAsGroup: 0
@@ -76,4 +87,4 @@ spec:
         storageClassName: kops-csi-1-21
         resources:
           requests:
-            storage: 20Gi  
+            storage: 20Gi
