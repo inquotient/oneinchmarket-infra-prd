@@ -5,7 +5,7 @@ metadata:
 spec: 
   ports: 
     - name: kafka-ui-port 
-      port: 18082
+      port: 8080
       targetPort: 8080
   selector: 
     app: kafka-ui

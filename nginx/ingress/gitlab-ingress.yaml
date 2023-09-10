@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:261439072150:certificate/93aaebed-194e-4ed5-b440-a71f6634e91d
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/target-type: instance
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/backend-protocol: HTTPS
+    alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
+    alb.ingress.kubernetes.io/subnets: subnet-01a331fc928a0931e, subnet-06c96a2b992b18cdc
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+spec:
+  ingressClassName: alb
+  rules:
+    - host: "gitlab.oneinchmarket.co.kr"
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: gitlab-nodeport
+              port:
+                number: 443
+    - host: "registry.gitlab.oneinchmarket.co.kr"
+      http:
+        paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: gitlab-nodeport
+              port:
+                number: 443

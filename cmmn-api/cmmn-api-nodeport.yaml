@@ -5,7 +5,7 @@ metadata:
 spec: 
   ports: 
     - name: cmmn-api-port 
-      port: 18080
+      port: 8080
       targetPort: 8080 
   selector: 
     app: cmmn-api

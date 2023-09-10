@@ -5,10 +5,10 @@ metadata:
 spec: 
   ports: 
     - name: admin-nginx-web-port 
-      port: 30080 
+      port: 80 
       targetPort: 80 
     - name: admin-nginx-secure-web-port 
-      port: 30443
+      port: 443
       targetPort: 443
   selector: 
     app: admin-nginx

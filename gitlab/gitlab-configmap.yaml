@@ -4,9 +4,20 @@ metadata:
   name: gitlab-configmap
 data:
   gitlab-config: |
-    external_url = "https://gitlab.oneinchmarket.co.kr"
+    registry_external_url "https://registry.gitlab.oneinchmarket.co.kr"
+    external_url "https://gitlab.oneinchmarket.co.kr"
+    
+    nginx['redirect_http_to_https'] = true
+    nginx['ssl_certificate'] = "/etc/gitlab/tls/tls.crt"
+    nginx['ssl_certificate_key'] = "/etc/gitlab/tls/tls.key"
+    nginx['client_max_body_size'] = '1024m'
 
-    nginx['enable'] = false
+    registry_nginx['redirect_http_to_https'] = true
+    registry_nginx['ssl_certificate'] = "/etc/gitlab/tls/tls.crt"
+    registry_nginx['ssl_certificate_key'] = "/etc/gitlab/tls/tls.key"
+    registry_nginx['client_max_body_size'] = '1024m'
+
+    letsencrypt['enable'] = false
 
     postgresql['enable'] = false
     postgresql['auto_restart_on_version_change'] = false
@@ -20,24 +31,7 @@ data:
     gitlab_rails['db_username'] = 'gitlab'
     gitlab_rails['db_password'] = 'HYKWk/iZlJg6EYt4L6XooTSI2ErjeU1f'
 
-    # gitlab_rails['trusted_proxies'] = [ '100.64.0.0/10' ]
-
     puma['worker_processes'] = 0
-    puma['listen'] = '0.0.0.0'
-    puma['port'] = 9080
-    puma['ssl_listen'] = '0.0.0.0'
-    puma['ssl_port'] = 9443
-    puma['ssl_certificate'] = '/etc/gitlab/tls/tls.crt'
-    puma['ssl_certificate_key'] = '/etc/gitlab/tls/tls.key'
-
-    puma['socket'] = ""
-
-    gitlab_workhorse['listen_network'] = "tcp"
-    gitlab_workhorse['listen_addr'] = "127.0.0.1:8181"
-
-    web_server['external_users'] = ['nginx']
-
-    letsencrypt['enable'] = false
 
     sidekiq['max_concurrency'] = 10
 

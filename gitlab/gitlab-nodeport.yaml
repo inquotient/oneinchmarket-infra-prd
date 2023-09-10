@@ -5,17 +5,11 @@ metadata:
 spec:
   ports:
     - name: gitlab-web-port
-      port: 20080
+      port: 80
       targetPort: 80
     - name: gitlab-secure-port
-      port: 20443
+      port: 443
       targetPort: 443
-    - name: gitlab-was-port
-      port: 19080
-      targetPort: 9080
-    - name: gitlab-was-secure-port
-      port: 19443
-      targetPort: 9443
   selector:
     app: gitlab
   type: NodePort

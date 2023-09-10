@@ -9,45 +9,20 @@ metadata:
     alb.ingress.kubernetes.io/ssl-redirect: '443'
     alb.ingress.kubernetes.io/target-type: instance
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/backend-protocol: HTTPS
-    alb.ingress.kubernetes.io/backend-protocol-version: HTTP2
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
     alb.ingress.kubernetes.io/subnets: subnet-01a331fc928a0931e, subnet-06c96a2b992b18cdc
     # nginx.ingress.kubernetes.io/ssl-redirect: "true"
     # nginx.ingress.kubernetes.io/backend-protocol: HTTPS
 spec:
   ingressClassName: alb
-  #tls:
-  #- hosts:
-  #      - oneinchmarket.co.kr
-  #secretName: tls
   rules:
-    - host: "admin.oneinchmarket.co.kr"
+    - host: "kafka-ui.oneinchmarket.co.kr"
       http:
         paths:
         - pathType: Prefix
           path: "/"
           backend:
             service:
-              name: admin-nginx-nodeport
+              name: kafka-ui-nodeport
               port:
-                number: 30443
-    - host: "auth.oneinchmarket.co.kr"
-      http:
-        paths:
-        - pathType: Prefix
-          path: "/"
-          backend:
-            service:
-              name: admin-nginx-nodeport
-              port:
-                number: 30443
-    - host: "gitlab.oneinchmarket.co.kr"
-      http:
-        paths:
-          - pathType: Prefix
-            path: "/"
-            backend:
-              service:
-                name: admin-nginx-nodeport
-                port:
-                  number: 30443
+                number: 8080

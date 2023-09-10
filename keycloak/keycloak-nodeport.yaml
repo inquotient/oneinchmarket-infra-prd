@@ -5,7 +5,7 @@ metadata:
 spec: 
   ports: 
     - name: keycloak-http-port 
-      port: 18083
+      port: 8080
       targetPort: 8080
     - name: keycloak-https-port
       port: 443

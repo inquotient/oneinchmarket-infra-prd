@@ -47,10 +47,6 @@ spec:
           protocol: TCP
         - containerPort: 443
           protocol: TCP
-        - containerPort: 9080
-          protocol: TCP
-        - containerPort: 9443
-          protocol: TCP
         volumeMounts:
         - name: gitlab-config
           mountPath: /etc/gitlab/gitlab.rb
