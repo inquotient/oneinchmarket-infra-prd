@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx-ingress
+  name: gitlab-ingress
   annotations:
     alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:261439072150:certificate/93aaebed-194e-4ed5-b440-a71f6634e91d
